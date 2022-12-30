@@ -1,7 +1,7 @@
 # Argo Workflows Lab
 
 ## Intro
-The aim of this lab is to try the [`Argo Workflows`](https://argoproj.github.io/argo-workflows/). In this lab I spin up a simple architecture compose by:
+The aim of this lab is trying [`Argo Workflows`](https://argoproj.github.io/argo-workflows/). In this lab I spin up a simple architecture compose by:
 * `producer`: container producing a file on a certain path (watched by the `watcher`)
 * `watcher`: container watching a certain path, so anytime a new file is created it will trigger the `WorkflowTemplate`, leveraging the [`WorkflowEventBinding`](https://argoproj.github.io/argo-workflows/events/#submitting-a-workflow-from-a-workflow-template) mechanism
 * [`Argo Workflow Template`](https://argoproj.github.io/argo-workflows/workflow-templates/)
