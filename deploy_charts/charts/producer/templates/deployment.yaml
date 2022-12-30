@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}-deployment
+  annotations:
+    version: {{ .Values.app.version }}
+spec:
+  progressDeadlineSeconds: 600
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+    spec:
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: {{ .Values.app.name }}
+          image: "{{ .Values.app.name }}:{{ .Values.app.version }}"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+          - mountPath: {{ .Values.mountPath }}
+            name: vol-1
+          env:
+          - name: INPUT_DIR
+            value: {{ .Values.inputMountPath }}
+          - name: RECORD_NUMBER
+            value: {{ .Values.app.recordNumber | quote }}
+          - name: PRODUCING_FILE_INTERVAL
+            value: {{ .Values.app.producingFileInterval | quote }}
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 300m
+              memory: 1G
+            requests:
+              cpu: 200m
+              memory: 500M
+      volumes:
+        - name: vol-1
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistentVolumeClaim }}

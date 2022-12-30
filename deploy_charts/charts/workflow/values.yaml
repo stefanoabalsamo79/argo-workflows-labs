@@ -1,0 +1,18 @@
+deployementReleaseName: workflow-release
+clusterName: test-cluster
+app:
+  filehandler:
+    name: filehandler
+    version: 1.0.0
+    namespace: argo
+  filefilter:
+    name: filefilter
+    version: 1.0.0
+    namespace: argo
+  fileloader:
+    name: fileloader
+    version: 1.0.0
+    namespace: argo
+postgresdb:
+  ip: "10.96.180.79"
+  port: "5432"

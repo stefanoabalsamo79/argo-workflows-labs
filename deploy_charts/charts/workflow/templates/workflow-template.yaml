@@ -1,0 +1,98 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: wft-001
+spec:
+  entrypoint: main
+  templates:
+    - name: main
+      steps:
+        - - name: filehandler
+            template: filehandler
+            arguments:
+              parameters:
+                - name: message
+                  value: '{{"{{"}}workflow.parameters.message{{"}}"}}'
+                - name: inputDir
+                  value: '{{"{{"}}workflow.parameters.inputDir{{"}}"}}'
+                - name: filename
+                  value: '{{"{{"}}workflow.parameters.filename{{"}}"}}'
+                - name: tmpDir
+                  value: '{{"{{"}}workflow.parameters.tmpDir{{"}}"}}'
+        - - name: fileFilter
+            template: fileFilter
+            arguments:
+              parameters:
+                - name: message
+                  value: '{{"{{"}}workflow.parameters.message{{"}}"}}'
+                - name: inputDir
+                  value: '{{"{{"}}workflow.parameters.tmpDir{{"}}"}}'
+                - name: filename
+                  value: '{{"{{"}}workflow.parameters.filename{{"}}"}}'
+        - - name: fileLoader
+            template: fileLoader
+            arguments:
+              parameters:
+                - name: message
+                  value: '{{"{{"}}workflow.parameters.message{{"}}"}}'
+                - name: inputDir
+                  value: '{{"{{"}}workflow.parameters.tmpDir{{"}}"}}'
+                - name: filename
+                  value: '{{"{{"}}workflow.parameters.filename{{"}}"}}'
+    - name: filehandler
+      inputs:
+        parameters:
+          - name: message
+          - name: inputDir
+          - name: filename
+          - name: tmpDir
+      container:
+        image: filehandler:1.0.0
+        command: [run]
+        args: [{{`"{{inputs.parameters.message}}"`}}, {{`"{{inputs.parameters.inputDir}}"`}}, {{`"{{inputs.parameters.filename}}"`}}, {{`"{{inputs.parameters.tmpDir}}"`}}]
+        volumeMounts:
+        - mountPath: /var/001
+          name: vol-1
+      volumes:
+        - name: vol-1
+          persistentVolumeClaim:
+            claimName: pvc-1
+    - name: fileFilter
+      inputs:
+        parameters:
+          - name: message
+          - name: inputDir
+          - name: filename
+      container:
+        image: filefilter:1.0.0
+        command: [run]
+        args: [{{`"{{inputs.parameters.message}}"`}}, {{`"{{inputs.parameters.inputDir}}"`}}, {{`"{{inputs.parameters.filename}}"`}}]
+        volumeMounts:
+        - mountPath: /var/001
+          name: vol-1
+      volumes:
+        - name: vol-1
+          persistentVolumeClaim:
+            claimName: pvc-1
+    - name: fileLoader
+      inputs:
+        parameters:
+          - name: message
+          - name: inputDir
+          - name: filename
+      container:
+        image: fileloader:1.0.0
+        env:
+        - name: POSTGRESDB_IP
+          value: {{ .Values.postgresdb.ip | quote }}
+        - name: POSTGRESDB_PORT
+          value: {{ .Values.postgresdb.port | quote }}
+        command: [run]
+        args: [{{`"{{inputs.parameters.message}}"`}}, {{`"{{inputs.parameters.inputDir}}"`}}, {{`"{{inputs.parameters.filename}}"`}}]
+        volumeMounts:
+        - mountPath: /var/001
+          name: vol-1
+      volumes:
+        - name: vol-1
+          persistentVolumeClaim:
+            claimName: pvc-1

@@ -1,0 +1,10 @@
+deployementReleaseName: watcher-release
+clusterName: test-cluster
+app:
+  name: watcher
+  version: 1.0.0
+  namespace: argo
+
+argoServer:
+  ip: 10.96.152.106
+  port: 2746

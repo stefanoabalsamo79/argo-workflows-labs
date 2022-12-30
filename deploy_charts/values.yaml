@@ -1,0 +1,23 @@
+producer:
+  mountPath: /var/001
+  inputMountPath: /var/001/input-001
+  tmpPath: /var/001/tmp-001
+  persistentVolumeClaim: pvc-1
+
+watcher:
+  mountPath: /var/001
+  inputMountPath: /var/001/input-001
+  tmpPath: /var/001/tmp-001
+  persistentVolumeClaim: pvc-1
+
+workflow:
+  mountPath: /var/001
+  inputMountPath: /var/001/input-001
+  tmpPath: /var/001/tmp-001
+  persistentVolumeClaim: pvc-1
+
+postgresdb:
+  postgresDb: postgresdb
+  postgresUser: admin
+  postgresPassword: psltest
+

@@ -1,0 +1,8 @@
+deployementReleaseName: producer-release
+clusterName: test-cluster
+app:
+  name: producer
+  version: 1.0.0
+  namespace: argo
+  recordNumber: 100
+  producingFileInterval: 30000

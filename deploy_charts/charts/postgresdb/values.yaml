@@ -1,0 +1,5 @@
+deployementReleaseName: postgresdb-release
+clusterName: test-cluster
+
+app:
+  namespace: argo

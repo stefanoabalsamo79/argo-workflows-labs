@@ -1,0 +1,22 @@
+defaultClusterName: kind
+clusterName: test-cluster
+namespace: argo
+
+argocli: 
+  local: 
+    imageSrc: quay.io/argoproj/argocli:v3.3.10
+    imageDest: argocli
+    imageTagDest: 3.3.10
+
+workflow-controller: 
+  local: 
+    imageSrc: quay.io/argoproj/workflow-controller:v3.3.10
+    imageDest: workflow-controller
+    imageTagDest: 3.3.10
+
+argoexec: 
+  local: 
+    imageSrc: quay.io/argoproj/argoexec:v3.3.10
+    imageDest: argoexec
+    imageTagDest: 3.3.10
+

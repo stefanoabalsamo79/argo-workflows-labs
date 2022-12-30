@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+
+for i in $*; do 
+  echo $i 
+done
+
+npm install
+
+MESSAGE=$1 \
+INPUT_DIR=$2 \
+FILE_TO_PROCESS=$3 \
+TMP_DIR=$4 \
+node index.js
+

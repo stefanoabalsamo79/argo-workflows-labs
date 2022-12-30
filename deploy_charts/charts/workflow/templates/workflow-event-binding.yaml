@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowEventBinding
+metadata:
+  name: event-etl-chain-001
+spec:
+  event:
+    selector: discriminator == "etl" && metadata["x-chain-id"] == ["001"]
+  submit:
+    workflowTemplateRef:
+      name: wft-001
+    arguments:
+      parameters:
+      - name: message
+        valueFrom:
+          event: payload.message
+      - name: filename
+        valueFrom:
+          event: payload.filename
+      - name: inputDir
+        valueFrom:
+          event: payload.inputDir
+      - name: tmpDir
+        valueFrom:
+          event: payload.tmpDir
