@@ -91,12 +91,6 @@ patch_server_auth:
   --namespace argo \
   --type='json' \
   -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/args", "value": [ "server", "--auth-mode=server"]}]'
-
-argo_workflows_uninstall:
-	$(KUBECTL) delete \
-	-n $(NAMESPACE) \
-	--ignore-not-found=true \
-	-f infra/quick-start-postgres.yaml
 	
 pv_pvc_install:
 	$(KUBECTL) apply -n $(NAMESPACE) -f infra/pv.yaml
