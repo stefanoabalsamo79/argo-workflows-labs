@@ -27,15 +27,15 @@ ifeq ($(HAS_KUBECTL),false)
 	@exit 1
 endif
 ifeq ($(HAS_DOCKER),false) 
-	$(info docker not set!)
+	$(info docker not installed!)
 	@exit 1
 endif
 ifeq ($(HAS_HELM),false) 
-	$(info helm not set!)
+	$(info helm not installed!)
 	@exit 1
 endif
 ifeq ($(HAS_KIND),false) 
-	$(info kind not set!)
+	$(info kind not installed!)
 	@exit 1
 endif
 
